@@ -21,7 +21,8 @@ import java.util.concurrent.TimeUnit;
 public class ListenableFutureExample {
 
   // 创建固定线程池
-  private static final ExecutorService executor = Executors.newFixedThreadPool(6);
+  private static final ExecutorService executor =
+      Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
   public static void main(String[] args) {
     // 使用MoreExecutors封装jdk的线程池
@@ -50,9 +51,11 @@ public class ListenableFutureExample {
           }
 
           @Override
-          public void onFailure(Throwable throwable) {
-            log.error(throwable.getLocalizedMessage());
-            // 关闭线程池
+          public void onFailure(@Nullable Throwable throwable) {
+              if (throwable != null) {
+                  log.error(throwable.getLocalizedMessage());
+              }
+              // 关闭线程池
             shutdownExecutorService(listeningExecutorService);
           }
         },
@@ -69,7 +72,7 @@ public class ListenableFutureExample {
     try {
       if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
         // 打印尚未执行的任务方便手动处理
-        executorService.shutdownNow().forEach((runnable -> log.info(runnable.toString())));
+        executorService.shutdownNow().forEach(runnable -> log.info(runnable.toString()));
       }
     } catch (InterruptedException e) {
       executorService.shutdownNow();
