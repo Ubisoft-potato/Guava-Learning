@@ -25,6 +25,8 @@ public class MultisetExample {
     bookStore.add("Tom", 6);
     log.info("Tom count:{}", bookStore.count("Tom"));
 
+    bookStore.forEach(System.out::println);
+
     bookStore
         .entrySet()
         .forEach(
