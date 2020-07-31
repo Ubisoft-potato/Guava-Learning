@@ -25,11 +25,19 @@ public class MultisetExample {
     bookStore.add("Tom", 6);
     log.info("Tom count:{}", bookStore.count("Tom"));
 
+    //  iterate all element
     bookStore.forEach(System.out::println);
+
+    // set Tom's occurrences to 10
+    bookStore.setCount("Tom", 10);
+
+    // print distinct element
+    bookStore.elementSet().forEach(System.out::println);
 
     bookStore
         .entrySet()
         .forEach(
             entry -> log.info("entry element: {}, size: {}", entry.getElement(), entry.getCount()));
+
   }
 }
