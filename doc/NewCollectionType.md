@@ -34,15 +34,22 @@ for (String word : words) {
 Guava 的 `Multiset`组合了以上思想：
 
 - 看成 `Collection`时, `Multiset` 表现更像未排序的 `ArrayList`
-  - [ ] 调用 `add(E)` 增加当前元素的出现次数
-  - [ ]  `iterator()` 迭代得到每一个元素
-  - [ ]  `size()` 获取所有所有元素的总数量
-
+  
+  调用 `add(E)` 增加当前元素的出现次数
+  
+`iterator()` 迭代得到每一个元素
+  
+  `size()` 获取所有所有元素的总数量
+  
 - 查询方法就像`Map<E, Integer>`一样：
-  - [ ] `count(Object)` 返回相关元素的个数. 对`HashMultiset`,时间复杂度是O(1), 对于`TreeMultiset`, 时间复杂度是 O(log n)
-  - [ ] `entrySet()` 返回 `Set<Multiset.Entry<E>>` 就像 `Map`返回的EntrySet一样，用来遍历结果集
-  - [ ] `elementSet()`返回元素的去重后的 `Set<E>` 
-  - [ ]  `Multiset` 在内存消耗上是线性的
+  
+  `count(Object)` 返回相关元素的个数. 对`HashMultiset`,时间复杂度是O(1), 对于`TreeMultiset`, 时间复杂度是 O(log n)
+  
+  `entrySet()` 返回 `Set<Multiset.Entry<E>>` 就像 `Map`返回的EntrySet一样，用来遍历结果集
+  
+  `elementSet()`返回元素的去重后的 `Set<E>` 
+  
+  `Multiset` 在内存消耗上是线性的
 
 ------
 
@@ -85,6 +92,8 @@ Guava提供了许多MultiSet的实现类，大致对应JDK的map实现
 SortedMultiset是Multiset接口上的一种变体，它支持有效地提取指定范围内的子多集。 例如，可以使用`latencies.subMultiset（0，BoundType.CLOSED，100，BoundType.OPEN）.size（）`来确定网站在100ms延迟内的匹配数，然后将其与latencies.size（）进行比较 确定整体比例。
 
 `TreeMultiset` 实现了`SortedMultiset` 接口。 
+
+------
 
 ### Multimap
 
@@ -189,3 +198,59 @@ aliceChildren.add(carol);
 
 以上的实现，除了不可变版本，都支持key和value为null的情况。
 
+------
+
+## BiMap
+
+使用JDK的map将值映射到键需要维护2个map，并使得这2个map保持同步，但是这很容易出错，并且在map中已经存在值时可能会造成极大的混乱。比如：
+
+```java
+Map<String, Integer> nameToId = Maps.newHashMap();
+Map<Integer, String> idToName = Maps.newHashMap();
+
+nameToId.put("Bob", 42);
+idToName.put(42, "Bob");
+// what happens if "Bob" or 42 are already present?
+// weird bugs can arise if we forget to keep these in sync...
+```
+
+ [`BiMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/BiMap.html) 就是一个 `Map<K, V>`：
+
+- 能够使用  [`inverse()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/BiMap.html#inverse--)来反转`BiMap<V, K>`的键和值
+- 确保值唯一， 并且使得 [`values()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/BiMap.html#values--) 返回 `Set`
+
+`BiMap.put(key, value)` 将会抛出一个 `IllegalArgumentException` 如果尝试将一个key映射到一个已经存在的值，如果需要尝试删除已经存在于的实体， 使用 [`BiMap.forcePut(key, value)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/BiMap.html#forcePut-java.lang.Object-java.lang.Object-) 进行强制操作。
+
+```java
+BiMap<String, Integer> userId = HashBiMap.create();
+...
+String userForId = userId.inverse().get(id);
+```
+
+### 实现类
+
+| Key-Value Map Impl | Value-Key Map Impl | Corresponding `BiMap`                                        |
+| ------------------ | ------------------ | ------------------------------------------------------------ |
+| `HashMap`          | `HashMap`          | [`HashBiMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/HashBiMap.html) |
+| `ImmutableMap`     | `ImmutableMap`     | [`ImmutableBiMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/ImmutableBiMap.html) |
+| `EnumMap`          | `EnumMap`          | [`EnumBiMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/EnumBiMap.html) |
+| `EnumMap`          | `HashMap`          | [`EnumHashBiMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/EnumHashBiMap.html) |
+
+------
+
+## ClassToInstanceMap
+
+有时map的key可能是不同的类型：可能是类型，需要将其映射到该类的对象，guava提供了 [`ClassToInstanceMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/ClassToInstanceMap.html)来实现此需求。
+
+扩展 `Map` 接口，`ClassToInstanceMap` 提供了 [`T getInstance(Class)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/ClassToInstanceMap.html#getInstance-java.lang.Class-) 和 [`T putInstance(Class, T)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/ClassToInstanceMap.html#putInstance-java.lang.Class-java.lang.Object-)方法， 消除了类型强制转换的需要。
+
+`ClassToInstanceMap`有一个类型参数，通常命名为B，代表由map理的类型的上限。 例如：
+
+```java
+ClassToInstanceMap<Number> numberDefaults = MutableClassToInstanceMap.create();
+numberDefaults.putInstance(Integer.class, Integer.valueOf(0));
+```
+
+从技术上讲，`ClassToInstanceMap <B>`实现`Map <Class <？ extends B>，B>`或换句话说，就是从B的子类到B的实例的映射。这会使`ClassToInstanceMap`中涉及的泛型类型引起混乱，但是请记住，B始终是B中的类型的上限 地图-通常，B只是`Object`。
+
+Guava 提供了有帮助的的实现 ： [`MutableClassToInstanceMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/MutableClassToInstanceMap.html) and [`ImmutableClassToInstanceMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/ImmutableClassToInstanceMap.html).
