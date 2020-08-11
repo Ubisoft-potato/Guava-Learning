@@ -15,7 +15,7 @@ Guava Version ： [![Latest release](https://img.shields.io/github/release/googl
 
 2. 并发相关
    
-[ListenableFuture](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/concurrency.md)
+   [ListenableFuture](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/concurrency.md)
    
 3. 基本工具
 
