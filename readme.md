@@ -14,8 +14,10 @@ Guava Version ： [![Latest release](https://img.shields.io/github/release/googl
    [Guava实现新集合类型](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/NewCollectionType.md)
 
 2. 并发相关
-   [ListenableFuture](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/concurrency.md)
-
+   
+[ListenableFuture](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/concurrency.md)
+   
 3. 基本工具
+
    [基础](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/basic.md)
 
