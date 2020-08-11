@@ -1,7 +1,7 @@
 # Google Guava Learning 
 
 ------
-[![Latest release](https://img.shields.io/github/release/google/guava.svg)](https://github.com/google/guava/releases/latest)
+Guava Version ： [![Latest release](https://img.shields.io/github/release/google/guava.svg)](https://github.com/google/guava/releases/latest)
 
 ###### GuavaWiki官方翻译链接：
 
