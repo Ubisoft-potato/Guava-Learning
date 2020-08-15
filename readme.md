@@ -9,6 +9,8 @@ Guava Version ： [![Latest release](https://img.shields.io/github/release/googl
 
    [Guava集合工具类](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/CollectionUtilities.md)
 
+   [Guava集合增强工具类](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/CollectionHelpers.md)
+
    [不可变集合](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/ImmutableCollection.md)
 
    [Guava实现新集合类型](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/NewCollectionType.md)
