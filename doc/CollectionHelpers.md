@@ -59,3 +59,71 @@ class AddLoggingList<E> extends ForwardingList<E> {
 
 ## PeekingIterator
 
+有时候Jdk的`Iterator`并不能完全满足需求
+
+`Iterators`支持[`Iterators.peekingIterator(Iterator)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Iterators.html#peekingIterator-java.util.Iterator-)将`Iterator`包装为[`PeekingIterator`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/PeekingIterator.html)，其为`Iterator`的子类，能够支持使用[`peek()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/PeekingIterator.html#peek--)方法，调用`peek()`能够获取`next()`的下一个元素但索引不会改变.
+
+注意:    `Iterators.peekingIterator`得到的`PeekingIterator` 在调用 `peek()`后不支持 `remove()`
+
+```java
+PeekingIterator<String> peekingIterator =
+     Iterators.peekingIterator(Iterators.forArray("a", "b"));
+ String a1 = peekingIterator.peek(); // returns "a"
+ String a2 = peekingIterator.peek(); // also returns "a"
+ String a3 = peekingIterator.next(); // also returns "a"
+```
+
+案例：消除连续相同的元素：
+
+```java
+List<E> result = Lists.newArrayList();
+PeekingIterator<E> iter = Iterators.peekingIterator(source.iterator());
+while (iter.hasNext()) {
+  E current = iter.next();
+  while (iter.hasNext() && iter.peek().equals(current)) {
+    // skip this duplicate element
+    iter.next();
+  }
+  result.add(current);
+}
+```
+
+## AbstractIterator
+
+实现自己的 `Iterator`， [`AbstractIterator`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/AbstractIterator.html)能够让它变得更简单
+
+实现一个跳过null的Iterator ：
+
+```java
+public static Iterator<String> skipNulls(final Iterator<String> in) {
+  return new AbstractIterator<String>() {
+    protected String computeNext() {
+      while (in.hasNext()) {
+        String s = in.next();
+        if (s != null) {
+          return s;
+        }
+      }
+      return endOfData();
+    }
+  };
+}
+```
+
+只需要重写一个方法[`computeNext()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/AbstractIterator.html#computeNext--)，这个方法只会计算下一个值，当遍历到最后一个元素，直接返回`endOfData()` 标记此次迭代结束。
+
+*注意:* `AbstractIterator` 继承自 `UnmodifiableIterator`, 所以静止调用 `remove()`.如果需要支持 `remove()`, 则不能继承 `AbstractIterator`.
+
+## AbstractSequentialIterator
+
+ [`AbstractSequentialIterator`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/AbstractSequentialIterator.html) 提供了一种简单的方式表述一次迭代
+
+```java
+Iterator<Integer> powersOfTwo = new AbstractSequentialIterator<Integer>(1) { // note the initial value!
+  protected Integer computeNext(Integer previous) {
+    return (previous == 1 << 30) ? null : previous * 2;
+  }
+};
+```
+
+注意：必须传递初始值，如果为null，将会立即返回，`AbstractSequentialIterator` 不能被用来实现返回 `null`的迭代器。

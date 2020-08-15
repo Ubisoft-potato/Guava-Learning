@@ -16,4 +16,9 @@ public class CollectionHelperTest {
 
     stringAddLoggingList.addAll(Lists.newArrayList("spring","go"));
   }
+
+  @Test
+  public void peekIterator() {
+    new PeekingIteratorExample().removeDuplicateItem();
+  }
 }
