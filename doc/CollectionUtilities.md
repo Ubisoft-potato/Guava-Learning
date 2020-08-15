@@ -62,8 +62,6 @@ Multiset<String> multiset = HashMultiset.create();
 
 ### 迭代
 
-------
-
 ​		无论何时，Guava都更倾向于提供接受 `Iterable` 而不是一个 `Collection`，在Google，并不是所有的数据都通过集合存储在主内存中，它们可能来自数据库、或者其他的数据中心，在没有实际的获取到所有元素时不能支持使用 像 `size()`这样的集合操作。
 
 ​		所有的 `Iterable` 操作都被封装在 [`Iterables`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Iterables.html)中，另外，大多数 `Iterables` 方法在 [`Iterators`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Iterators.html) 都有一个对应的版本，可以接受JDK原生的Iterator。
