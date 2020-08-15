@@ -1,18 +1,10 @@
 # Guava Basic Example
 
-------
-
 ## avoid null: 防止空指针
-
-------
 
 ## preConditions：参数预检
 
-------
-
 ## Ordering: 排序
-
-------
 
 ### 概览
 `Ordering` 类是Guava封装的一个Comparator的实现类，非常便利，可以用来构建复杂的comparator然后
@@ -20,8 +12,6 @@
 
 从本质上讲，Ordering实例不过是一个特殊的Comparator实例。排序仅采用依赖于Comparator的方法（例如Collections.max），并将它们用作实例方法。
 为了增加功能，Ordering类提供了链式调用来调整和增强现有的比较器。
-
-------
 
 ### 创建Ordering
 常见的静态方法：

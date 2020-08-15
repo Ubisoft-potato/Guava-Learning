@@ -1,12 +1,8 @@
 # New Collection Types:新集合实现类
 
-------
-
 Guava实现了一些jdk没有提供的新集合类型，但是它们却能被广泛使用，和jdk的集合实现类是互补关系，并且guava的实现的新集合是符合jdk的集合规范的。
 
 ## Multiset
-
-------
 
 使用jdk的实现集合类，统计单词出现的次数需要这样实现：
 
@@ -37,10 +33,11 @@ Guava 的 `Multiset`组合了以上思想：
   
   调用 `add(E)` 增加当前元素的出现次数
   
+
 `iterator()` 迭代得到每一个元素
-  
+
   `size()` 获取所有所有元素的总数量
-  
+
 - 查询方法就像`Map<E, Integer>`一样：
   
   `count(Object)` 返回相关元素的个数. 对`HashMultiset`,时间复杂度是O(1), 对于`TreeMultiset`, 时间复杂度是 O(log n)
@@ -50,8 +47,6 @@ Guava 的 `Multiset`组合了以上思想：
   `elementSet()`返回元素的去重后的 `Set<E>` 
   
   `Multiset` 在内存消耗上是线性的
-
-------
 
 ​	值得注意的是，Multiset与Collection接口的协定完全一致，在极少数情况下，JDK本身具有先例，特别是TreeMultiset和TreeSet一样，使用比较进行相等性而不是Object.equals。 特别是，Multiset.addAll（Collection）每次出现时都会在Collection中添加每个元素的出现一次，这比上面的Map方法所需的for循环方便得多。
 
@@ -92,8 +87,6 @@ Guava提供了许多MultiSet的实现类，大致对应JDK的map实现
 SortedMultiset是Multiset接口上的一种变体，它支持有效地提取指定范围内的子多集。 例如，可以使用`latencies.subMultiset（0，BoundType.CLOSED，100，BoundType.OPEN）.size（）`来确定网站在100ms延迟内的匹配数，然后将其与latencies.size（）进行比较 确定整体比例。
 
 `TreeMultiset` 实现了`SortedMultiset` 接口。 
-
-------
 
 ### Multimap
 
@@ -198,8 +191,6 @@ aliceChildren.add(carol);
 
 以上的实现，除了不可变版本，都支持key和value为null的情况。
 
-------
-
 ## BiMap
 
 使用JDK的map将值映射到键需要维护2个map，并使得这2个map保持同步，但是这很容易出错，并且在map中已经存在值时可能会造成极大的混乱。比如：
@@ -235,8 +226,6 @@ String userForId = userId.inverse().get(id);
 | `ImmutableMap`     | `ImmutableMap`     | [`ImmutableBiMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/ImmutableBiMap.html) |
 | `EnumMap`          | `EnumMap`          | [`EnumBiMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/EnumBiMap.html) |
 | `EnumMap`          | `HashMap`          | [`EnumHashBiMap`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/EnumHashBiMap.html) |
-
-------
 
 ## ClassToInstanceMap
 

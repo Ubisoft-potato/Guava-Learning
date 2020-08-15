@@ -1,10 +1,6 @@
 # Immutable Collections: 不可变集合
 
-------
-
 ### 案例
-
-------
 
 ```java
 public class ImmutableSetExample {
@@ -19,8 +15,6 @@ public class ImmutableSetExample {
 ```
 
 ### 为什么要使用不可变集合?
-
-------
 
 不可变集合有许多优势：
 
@@ -42,8 +36,6 @@ jdk虽然提供了`Collections.unmodifiableXXX` 方法让我们能够转变集�
 **PS：Guava实现的不可变集合不允许出现null，所以如果需要不可变集合中出现null则考虑使用 `Collections.unmodifiableXXX` **
 
 ### 如何使用?
-
-------
 
 ### `ImmutableXXX`可以被几种方式创建：
 
@@ -104,10 +96,6 @@ void thingamajig(Collection<String> collection) {
 
 
 ### Guava不可变集合版本
-
-------
-
-
 
 | Interface                                                    | JDK or Guava? | Immutable Version                                            |
 | ------------------------------------------------------------ | ------------- | ------------------------------------------------------------ |

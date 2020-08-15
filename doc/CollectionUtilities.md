@@ -1,7 +1,5 @@
 # Collection Utilities：集合工具类
 
-------
-
 任何一个使用过JDK集合工具类的程序员都会喜欢 [`java.util.Collections`](http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html)，Guava提供了更多的工具类：使用静态方法即可操作。
 
 Guava集合工具类列表：
@@ -21,8 +19,6 @@ Guava集合工具类列表：
 | [`Table`](https://github.com/google/guava/wiki/NewCollectionTypesExplained#Table) | Guava         | [`Tables`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Tables.html) |
 
 ### 静态构造器
-
-------
 
 在JDK7之前，构造范型集合会使用到令人不愉快的代码：
 
@@ -78,8 +74,6 @@ Multiset<String> multiset = HashMultiset.create();
 
 ### 通用方法列表
 
-------
-
 | Method                                                       | Description                                                  | See Also                                                     |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [`concat(Iterable)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Iterables.html#concat-java.lang.Iterable-) | 返回多个Iterable实现类的延迟加载视图                         | [`concat(Iterable...)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Iterables.html#concat-java.lang.Iterable...-) |
@@ -106,8 +100,6 @@ String theElement = Iterables.getOnlyElement(thisSetIsDefinitelyASingleton);
 
 #### 类似集合的操作
 
-------
-
 通常来说，集合原生支持以上操作，但对Iterable接口对象不提供支持。
 
 每种操作代理了其对应的 `Collection`接口方法当输入的参数是`Collection`时，例如：如果`Iterables.size`传递了一个`Collection`参数，它本质上是使用`Collection.size`方法而不是去遍历iterator。
@@ -126,8 +118,6 @@ String theElement = Iterables.getOnlyElement(thisSetIsDefinitelyASingleton);
 
 ### FluentIterable
 
-------
-
 `FluentIterable`有一些便利的方法来得到不可变集合：
 
 | Result Type          | Method                                                       |
@@ -137,8 +127,6 @@ String theElement = Iterables.getOnlyElement(thisSetIsDefinitelyASingleton);
 | `ImmutableSortedSet` | [`toImmutableSortedSet(Comparator)`](http://google.github.io/guava/releases/12.0/api/docs/com/google/common/collect/FluentIterable.html#toImmutableSortedSet-java.util.Comparator-) |
 
 ### Lists
-
-------
 
 除静态构造方法和函数式方法之外， [`Lists`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Lists.html)为 `List` 对象提供了一些有价值的工具方法：
 
@@ -156,8 +144,6 @@ List<List<Integer>> parts = Lists.partition(countUp, 2); // {{1, 2}, {3, 4}, {5}
 
 ### 静态工厂
 
-------
-
 `Lists` 提供一下静态工厂方法：
 
 | Implementation | Factories                                                    |
@@ -166,8 +152,6 @@ List<List<Integer>> parts = Lists.partition(countUp, 2); // {{1, 2}, {3, 4}, {5}
 | `LinkedList`   | [basic](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Lists.html#newLinkedList--), [from `Iterable`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Lists.html#newLinkedList-java.lang.Iterable-) |
 
 ## Comparators
-
-------
 
 #### 找到元素里的最大或最小值
 
@@ -182,8 +166,6 @@ List<List<Integer>> parts = Lists.partition(countUp, 2); // {{1, 2}, {3, 4}, {5}
 
 
 ## Sets
-
-------
 
 #### Set理论操作
 
@@ -232,8 +214,6 @@ Set<Set<String>> animalSets = Sets.powerSet(animals);
 
 ### Static Factories
 
-------
-
 `Sets` 提供以下静态工厂方法：
 
 | Implementation  | Factories                                                    |
@@ -243,8 +223,6 @@ Set<Set<String>> animalSets = Sets.powerSet(animals);
 | `TreeSet`       | [basic](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Sets.html#newTreeSet--), [with `Comparator`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Sets.html#newTreeSet-java.util.Comparator-), [from `Iterable`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Sets.html#newTreeSet-java.lang.Iterable-) |
 
 ## Maps
-
-------
 
 [`Maps`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Maps.html) 拥有许多值得详细介绍的方法：
 
@@ -295,8 +273,6 @@ diff.entriesOnlyOnRight(); // {"d" => 5}
 
 #### 静态工厂方法
 
-------
-
 | Implementation    | Factories                                                    |
 | ----------------- | ------------------------------------------------------------ |
 | `HashMap`         | [basic](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Maps.html#newHashMap--), [from `Map`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Maps.html#newHashMap-java.util.Map-), [with expected size](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Maps.html#newHashMapWithExpectedSize-int-) |
@@ -307,8 +283,6 @@ diff.entriesOnlyOnRight(); // {"d" => 5}
 | `IdentityHashMap` | [basic](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Maps.html#newIdentityHashMap--) |
 
 ## Multisets
-
-------
 
 标准的`Collection`操作像：`containsAll`，忽略了multiset的集合元素的统计，只在乎元素是不是在multiset中，[`Multisets`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/collect/Multisets.html)提供了一些操作：
 
@@ -356,8 +330,6 @@ ImmutableMultiset<String> highestCountFirst = Multisets.copyHighestCountFirst(mu
 ```
 
 ## Multimaps
-
-------
 
 ### `index`
 
