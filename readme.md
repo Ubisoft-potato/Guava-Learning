@@ -21,4 +21,8 @@ Guava Version ： [![Latest release](https://img.shields.io/github/release/googl
 3. 基本工具
 
    [基础](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/basic.md)
+   
+4. 字符处理
+
+   [字符分割、合并、去除](https://github.com/Ubisoft-potato/Guava-Learning/blob/master/doc/strings.md)
 

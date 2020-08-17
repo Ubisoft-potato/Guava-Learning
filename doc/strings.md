@@ -70,3 +70,92 @@ String toSplit = " x -> y, z-> a ";
 ```
 
 ## CharMatcher
+
+字符匹配器
+
+```java
+String noControl = CharMatcher.javaIsoControl().removeFrom(string); // remove control characters
+String theDigits = CharMatcher.digit().retainFrom(string); // only the digits
+String spaced = CharMatcher.whitespace().trimAndCollapseFrom(string, ' ');
+  // trim whitespace at ends, and replace/collapse whitespace into single spaces
+String noDigits = CharMatcher.javaDigit().replaceFrom(string, "*"); // star out all digits
+String lowerAndDigit = CharMatcher.javaDigit().or(CharMatcher.javaLowerCase()).retainFrom(string);
+  // eliminate all characters that aren't digits or lowercase
+```
+
+### 获取 CharMatchers
+
+- [`any()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#any--)
+- [`none()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#none--)
+- [`whitespace()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#whitespace--)
+- [`breakingWhitespace()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#breakingWhitespace--)
+- [`invisible()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#invisible--)
+- [`digit()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#digit--)
+- [`javaLetter()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#javaLetter--)
+- [`javaDigit()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#javaDigit--)
+- [`javaLetterOrDigit()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#javaLetterOrDigit--)
+- [`javaIsoControl()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#javaIsoControl--)
+- [`javaLowerCase()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#javaLowerCase--)
+- [`javaUpperCase()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#javaUpperCase--)
+- [`ascii()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#ascii--)
+- [`singleWidth()`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#singleWidth--)
+
+
+其他获取方法
+
+| Method                                                       | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [`anyOf(CharSequence)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#anyOf-java.lang.CharSequence-) | 指定字符序列匹配， `CharMatcher.anyOf("aeiou")` 匹配小些英文元音 |
+| [`is(char)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#is-char-) | 指定单个字符匹配                                             |
+| [`inRange(char, char)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#inRange-char-char-) | 指定字符范围匹配 `CharMatcher.inRange('a', 'z')`.            |
+
+### 使用 CharMatchers
+
+`CharMatcher`提供了一系列操作在`CharSequence`中的出现的字符：
+
+| Method                                                       | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [`collapseFrom(CharSequence, char)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#collapseFrom-java.lang.CharSequence-char-) | `CharMatcher.anyOf("eko").collapseFrom("bookkeeper", '-')` -> "b-p-r" |
+| [`matchesAllOf(CharSequence)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#matchesAllOf-java.lang.CharSequence-) | `ASCII.matchesAllOf(string)` 查看是否所有的字符都是 ASCII.   |
+| [`removeFrom(CharSequence)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#removeFrom-java.lang.CharSequence-) | 从字符串中移除匹配的字符                                     |
+| [`retainFrom(CharSequence)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#retainFrom-java.lang.CharSequence-) | 移除所有不匹配的字符                                         |
+| [`trimFrom(CharSequence)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#trimFrom-java.lang.CharSequence-) | 移除开头和结尾配置的字符                                     |
+| [`replaceFrom(CharSequence, CharSequence)`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CharMatcher.html#replaceFrom-java.lang.CharSequence-java.lang.CharSequence-) | `CharMatcher.is('a').replaceFrom("yaha", "oo")`  ->   "yoohoo". |
+
+除了 `matchesAllOf`返回 `boolean`，其余都返回`String`
+
+## Charsets
+
+不要使用：
+
+```java
+try {
+  bytes = string.getBytes("UTF-8");
+} catch (UnsupportedEncodingException e) {
+  // how can this possibly happen?
+  throw new AssertionError(e);
+}
+```
+
+通过Guava：
+
+```java
+bytes = string.getBytes(Charsets.UTF_8);
+```
+
+[`Charsets`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/Charsets.html) 提供了 `Charset`标准实现的常量实现。所以不要直接使用`Charset`的名称进而使用Guava提供的`Charset`枚举
+
+## CaseFormat
+
+| Format                                                       | Example            |
+| ------------------------------------------------------------ | ------------------ |
+| [`LOWER_CAMEL`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CaseFormat.html#LOWER_CAMEL) | `lowerCamel`       |
+| [`LOWER_HYPHEN`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CaseFormat.html#LOWER_HYPHEN) | `lower-hyphen`     |
+| [`LOWER_UNDERSCORE`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CaseFormat.html#LOWER_UNDERSCORE) | `lower_underscore` |
+| [`UPPER_CAMEL`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CaseFormat.html#UPPER_CAMEL) | `UpperCamel`       |
+| [`UPPER_UNDERSCORE`](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/CaseFormat.html#UPPER_UNDERSCORE) | `UPPER_UNDERSCORE` |
+
+```java
+CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "CONSTANT_NAME")); // returns "constantName"
+```
+
